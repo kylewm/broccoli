@@ -1,0 +1,41 @@
+{% extends "dash/layouts/base.html" %}
+
+{% block head %}
+  <style>
+    body {
+      padding-top: 70px;
+      padding-bottom: 30px;
+    }
+  </style>
+{% endblock head %}
+
+{% block body %}
+
+<div class="container ">
+  <h1>Broccoli IndieWeb Comments</h1>
+  <p>Broccoli helps you display IndieWeb-style comments on any website.</p>
+
+  <p>Include this in the <code>&lthead></code> element</p>
+<pre>
+&lt;link rel="webmention" "{{ url_for('wmrecv.webmention', username=current_user.username or 'USERNAME', _external=True) }}" />
+</pre>
+
+<p>
+Include this embed code where you want Broccoli comments to be
+displayed. Make sure to update <code>CURRENT_POST_PATH</code> to the
+permalink of the current post. Most CMSes and site generators will
+provide a template variable for this purpose.
+</p>
+
+<pre>
+&lt;!-- Start of Broccoli -->
+&lt;div id="broccoli-comments"
+     data-user="{{ current_user.username or 'USERNAME' }}"
+     data-post="http://{{ current_user.domain or 'example.com' }}/CURRENT_POST_PATH">&lt;/div>
+&lt;script src="{{ url_for('embed.script', _external=True) }}">&lt;/script>
+&lt;!-- End of Broccoli -->
+</pre>
+
+</div>
+
+{% endblock body %}

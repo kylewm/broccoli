@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Comments on {{ post.permalink }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='embed/style.css') }}" />
+    <base target="_parent" />
+    <script type="text/javascript">
+      function resize() {
+        var height = document.body.offsetHeight + 20; // account for margins
+        window.parent.postMessage(['setHeight', height], '*');
+      }
+      window.addEventListener('load', resize);
+    </script>
+  </head>
+  <body>
+    <ul class="h-feed">
+      {% for comment in post.comments %}
+        <li class="h-entry">
+          <div class="comment-aside p-author h-card">
+            <img class="u-photo" src="{{ comment.author_image }}" alt="{{ comment.author_name }}"/>
+          </div>
+          <div class="comment-body">
+            <header>
+              <a class="p-name u-url" href="{{ comment.author_url }}">{{ comment.author_name }}</a>
+            </header>
+            <div class="p-name e-content">
+              {{ comment.content | safe }}
+            </div>
+            <footer>
+              <a class="u-url" href="{{ comment.permalink }}">Permalink</a>
+            </footer>
+          </div>
+        </li>
+      {% endfor %}
+
+      <form id="send-webmention" method="POST" action="{{ url_for('wmrecv.webmention', username=post.user.username) }}">
+        <p>Have you written a response to this? Make sure your post links to this one, and then paste the URL here to send a webmention.</p>
+        <input type="hidden" name="target" value="{{ post.permalink }}"/>
+        <input type="text" name="source" placeholder="Response URL"/>
+        <input type="button" value="Send"/>
+      </form>
+
+    </ul>
+  </body>
+</html>

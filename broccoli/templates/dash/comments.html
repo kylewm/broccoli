@@ -1,0 +1,30 @@
+{% extends "dash/layouts/base.html" %}
+
+{% block body %}
+
+  <div class="container ">
+    <h1>All Comments</h1>
+    <ul>
+      {% for post in current_user.posts %}
+        <li>{{ post.permalink }}
+          <table class="table table-striped">
+            <thead>
+              <td>Author</td>
+              <td>Content</td>
+              <td>Source</td>
+            </thead>
+            {% for comment in post.comments %}
+              <tr>
+                <td>{{ comment.author_name }}</td>
+                <td>{{ comment.content | truncate(256) }}</td>
+                <td>{{ comment.permalink or comment.source }}</td>
+              </tr>
+            {% endfor %}
+          </table>
+        </li>
+      {% endfor %}
+    </ul>
+
+  </div>
+
+{% endblock body %}

@@ -18,7 +18,13 @@ dash = Blueprint('dash', __name__)
 
 @dash.route('/')
 def index():
-    return render_template('index.html', current_user=current_user)
+    return render_template('dash/index.html')
+
+
+@dash.route('/comments')
+@login_required
+def comments():
+    return render_template('dash/comments.html')
 
 
 @dash.route('/profile', methods=['GET', 'POST'])
@@ -39,7 +45,7 @@ def user_profile():
                 db.session.commit()
 
         return redirect(url_for('.user_profile'))
-    return render_template('profile.html')
+    return render_template('dash/profile.html')
 
 
 @dash.route('/logout')
@@ -52,7 +58,7 @@ def logout():
 def login():
     me = request.args.get('me')
     if not me:
-        return render_template('login.html')
+        return render_template('dash/login.html')
 
     if not me.startswith('http://') and not me.startswith('https://'):
         me = 'http://' + me

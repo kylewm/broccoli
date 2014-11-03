@@ -1,5 +1,4 @@
-from flask import Blueprint, render_template, url_for, request, abort,\
-    make_response, current_app, jsonify
+from flask import Blueprint, request, abort, make_response, current_app
 
 from ..models import User, Post, Comment
 from ..extensions import db
@@ -39,7 +38,7 @@ def find_link_to_target(source_url, source_response, target_urls):
             return link
 
 
-@wmrecv.route('/<username>/webmention', methods=['POST'])
+@wmrecv.route('/webmention/<username>', methods=['POST'])
 def webmention(username):
     user = User.query.filter_by(username=username).first()
     if not user:
@@ -101,7 +100,7 @@ def webmention(username):
     comment.permalink = interp.get('url')
     comment.published = interp.get('published')
     comment.author_name = interp.get('author', {}).get('name')
-    comment.author_image = interp.get('author', {}).get('image')
+    comment.author_image = interp.get('author', {}).get('photo')
     comment.author_url = interp.get('author', {}).get('url')
     comment.title = interp.get('name')
     comment.content = interp.get('content')
@@ -116,5 +115,5 @@ def webmention(username):
 
     db.session.commit()
 
-    return 'Successfully received {} on {}'.format(
+    return 'received {} on {}'.format(
         comment.type, post.permalink)

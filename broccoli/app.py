@@ -4,6 +4,7 @@ from .extensions import db, login_mgr
 from .wmrecv import wmrecv
 from .dash import dash
 from .models import User
+from .embed import embed
 
 
 def create_app():
@@ -17,6 +18,7 @@ def create_app():
 def configure_blueprints(app):
     app.register_blueprint(wmrecv)
     app.register_blueprint(dash)
+    app.register_blueprint(embed, url_prefix='/embed')
 
 
 def configure_extensions(app):
