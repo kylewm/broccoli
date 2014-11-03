@@ -5,6 +5,7 @@ from .wmrecv import wmrecv
 from .dash import dash
 from .models import User
 from .embed import embed
+import os
 
 
 def create_app():

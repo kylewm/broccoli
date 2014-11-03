@@ -1,5 +1,8 @@
+import os
+
+
 class DefaultConfig:
     PROJECT = 'broccoli'
-    DEBUG = True
-    SECRET_KEY = 'super secret key'
-    SQLALCHEMY_DATABASE_URI = 'sqlite:////home/kmahan/projects/broccoli/db.sqlite'
+    SECRET_KEY = os.environ.get('SECRET_KEY', 'super secret key')
+    SQLALCHEMY_DATABASE_URI = os.environ.get(
+        'DATABASE_URL', 'sqlite:////home/kmahan/projects/broccoli/db.sqlite')
