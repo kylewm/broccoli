@@ -1,1 +1,1 @@
-gunicorn broccoli.wsgi --log-file -
+web: gunicorn broccoli.wsgi --log-file -
